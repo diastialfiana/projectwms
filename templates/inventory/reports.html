@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Laporan Persediaan</h3>
+<div class="card shadow-sm mb-4">
+    <div class="card-header">Saldo stok per gudang</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead><tr><th>Produk</th><th>Gudang</th><th>Saldo</th></tr></thead>
+            <tbody>
+                {% for row in stock_rows %}
+                <tr><td>{{ row.product }}</td><td>{{ row.warehouse }}</td><td>{{ row.quantity }}</td></tr>
+                {% empty %}<tr><td colspan="3" class="text-center">Belum ada data saldo.</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card shadow-sm">
+    <div class="card-header">Produk terendah</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead><tr><th>Produk</th><th>Saldo</th></tr></thead>
+            <tbody>
+                {% for row in low_stock %}
+                <tr><td>{{ row.product }}</td><td>{{ row.quantity }}</td></tr>
+                {% empty %}<tr><td colspan="2" class="text-center">Tidak ada produk dengan saldo rendah.</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h6>Total Produk</h6><h2>{{ product_count }}</h2></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h6>Total Gudang</h6><h2>{{ warehouse_count }}</h2></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h6>Catatan Persediaan</h6><h2>{{ stock_count }}</h2></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h6>Stok Rendah</h6><h2>{{ low_stock|length }}</h2></div></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">Barang Masuk Terbaru</div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead><tr><th>Produk</th><th>Gudang</th><th>Qty</th></tr></thead>
+                    <tbody>
+                        {% for item in latest_in %}
+                        <tr><td>{{ item.product }}</td><td>{{ item.warehouse }}</td><td>{{ item.quantity }}</td></tr>
+                        {% empty %}<tr><td colspan="3" class="text-center">Belum ada transaksi masuk.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">Barang Keluar Terbaru</div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead><tr><th>Produk</th><th>Gudang</th><th>Qty</th></tr></thead>
+                    <tbody>
+                        {% for item in latest_out %}
+                        <tr><td>{{ item.product }}</td><td>{{ item.warehouse }}</td><td>{{ item.quantity }}</td></tr>
+                        {% empty %}<tr><td colspan="3" class="text-center">Belum ada transaksi keluar.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header">Produk dengan stok rendah</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead><tr><th>Produk</th><th>Gudang</th><th>Saldo</th><th>Minimum</th></tr></thead>
+            <tbody>
+                {% for row in low_stock %}
+                <tr><td>{{ row.product }}</td><td>{{ row.warehouse }}</td><td>{{ row.quantity }}</td><td>{{ row.product.minimum_stock }}</td></tr>
+                {% empty %}<tr><td colspan="4" class="text-center">Tidak ada stok rendah.</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Gudang</h3>
+    <a href="{% url 'warehouse_create' %}" class="btn btn-primary">Tambah Gudang</a>
+</div>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-9"><input class="form-control" name="q" value="{{ search }}" placeholder="Cari kode, nama, atau lokasi"></div>
+    <div class="col-md-3"><button class="btn btn-outline-secondary w-100" type="submit">Filter</button></div>
+</form>
+<table class="table table-bordered table-striped">
+    <thead><tr><th>Kode</th><th>Nama</th><th>Lokasi</th><th>Status</th><th>Aksi</th></tr></thead>
+    <tbody>
+        {% for warehouse in warehouses %}
+        <tr><td>{{ warehouse.code }}</td><td>{{ warehouse.name }}</td><td>{{ warehouse.location }}</td><td>{% if warehouse.is_active %}Aktif{% else %}Nonaktif{% endif %}</td><td><a href="{% url 'warehouse_edit' warehouse.pk %}" class="btn btn-sm btn-outline-primary">Edit</a></td></tr>
+        {% empty %}<tr><td colspan="5" class="text-center">Belum ada data gudang.</td></tr>{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

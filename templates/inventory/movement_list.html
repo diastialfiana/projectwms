@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Riwayat Pergerakan Stok</h3>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5"><input class="form-control" name="q" value="{{ search }}" placeholder="Cari referensi / kode produk"></div>
+    <div class="col-md-3"><select class="form-control" name="movement_type"><option value="">Semua jenis</option><option value="IN">IN</option><option value="OUT">OUT</option><option value="ADJUSTMENT">ADJUSTMENT</option></select></div>
+    <div class="col-md-4"><button class="btn btn-outline-secondary w-100" type="submit">Filter</button></div>
+</form>
+<table class="table table-bordered table-striped">
+    <thead><tr><th>Produk</th><th>Gudang</th><th>Tipe</th><th>Kuantitas</th><th>Referensi</th><th>Pengguna</th><th>Waktu</th></tr></thead>
+    <tbody>
+        {% for movement in movements %}
+        <tr><td>{{ movement.product }}</td><td>{{ movement.warehouse }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.quantity }}</td><td>{{ movement.reference_no|default:'-' }}</td><td>{{ movement.user }}</td><td>{{ movement.created_at }}</td></tr>
+        {% empty %}<tr><td colspan="7" class="text-center">Belum ada data pergerakan.</td></tr>{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
